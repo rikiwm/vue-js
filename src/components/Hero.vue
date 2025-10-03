@@ -20,7 +20,7 @@ import { ArrowRight } from "lucide-vue-next";
           <span class="mr-2 text-teal-500">
             <Badge class="bg-teal-900 hover:bg-green-600">New</Badge>
           </span>
-          <span> Daftar Sekarang Juga ! </span>
+          <span> Coba Sekarang Juga ! </span>
         </Badge>
 
         <div
@@ -42,7 +42,7 @@ import { ArrowRight } from "lucide-vue-next";
         </p>
 
         <div class="space-y-4 md:space-y-0 md:space-x-4">
-          <Button class="w-5/6 md:w-1/4 font-bold group/arrow rouded-2xl bg-green-600">
+          <Button class="w-5/6 md:w-1/4 font-bold group/arrow rouded-2xl bg-green-600 hover:bg-green-700">
             Get Started
             <ArrowRight
               class="size-5 ml-2 group-hover/arrow:translate-x-1 transition-transform"
@@ -69,13 +69,13 @@ import { ArrowRight } from "lucide-vue-next";
           class="absolute -top-6 right-12 w-[90%] h-12 lg:h-[80%] bg-teal-500/50 blur-3xl rounded-full img-shadow-animation"
         ></div>
 
-        <img
-          class="w-full md:w-[1400px] mx-auto rounded-2xl relative leading-none flex items-center border border-t-3 border-t-teal-500/30 img-border-animation"
+        <!-- <img
+          class="w-full md:w-[1200px] mx-auto rounded-2xl relative leading-none flex items-center border border-t-3 border-t-teal-500/30 img-border-animation"
           :src="
-            mode == 'light' ? 'vue-img.jpg' : 'hero-image-dark.jpg'
+            mode == 'light' ? 'vue-img.jpg' : 'vue-img.jpg'
           "
           alt="dashboard using shadcn-vue"
-        />
+        /> -->
 
         <!-- gradient effect img -->
         <div

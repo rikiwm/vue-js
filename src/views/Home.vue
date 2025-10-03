@@ -1,11 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import Hero from "../components/Hero.vue";
-import FAQ from "../components/FAQ.vue";
+import Navbar from "../components/Navbar.vue";
+import Footer from "../components/Footer.vue";
+
 </script>
 
 <template>
     <div>
+        <Navbar />
         <Hero />
-        <!-- <FAQ /> -->
+        <Footer />
     </div>
 </template>

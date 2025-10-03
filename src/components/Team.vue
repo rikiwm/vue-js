@@ -11,16 +11,23 @@ import LinkedInIcon from "@/icons/LinkedInIcon.vue";
 import GithubIcon from "@/icons/GithubIcon.vue";
 import XIcon from "@/icons/XIcon.vue";
 
+// import { onMounted, ref } from 'vue';
+// import axios from "@/services/api";
 
-import { onMounted, ref } from 'vue';
-import axios from "../services/api";
+// const products = ref([]);
 
-const products = ref([]);
+// onMounted(() => {
+//   axios.get('products')
+//   .then(resp => products.value = resp.data).catch(err => console.log(err))
+// })
 
-onMounted(() => {
-  axios.get('products')
-  .then(resp => products.value = resp.data).catch(err => console.log(err))
-})
+import { useProducts } from '@/composable/products/useProducts';
+
+// import SidebarMenu component
+
+// Get products
+const { data: products, isLoading, isError, error } = useProducts()
+
 
 interface TeamProps {
   imageUrl: string;
@@ -197,10 +204,10 @@ const socialIcon = (socialName: string) => {
     class="container lg:w-[75%] py-24 sm:py-32"
   >
     <div class="text-center mb-8">
-      <h2 class="text-lg text-primary text-center mb-2 tracking-wider">Team</h2>
+      <h2 class="text-lg text-primary text-center mb-2 tracking-wider">Product</h2>
 
       <h2 class="text-3xl md:text-4xl text-center font-bold">
-        The Company Dream Team
+        The Product Company 
       </h2>
     </div>
 
@@ -214,11 +221,14 @@ const socialIcon = (socialName: string) => {
       >
         <CardHeader class="p-0 gap-0">
           <div class="h-full overflow-hidden">
-            <img
-              :src="item.image"
-              alt=""
-              class="w-full aspect-square object-cover saturate-0 transition-all duration-200 ease-linear size-full group-hover/hoverimg:saturate-100 group-hover/hoverimg:scale-[1.01]"
-            />
+             <router-link :to="`/about/${item.id}`">
+              <img
+                :src="item.image"
+                alt=""
+                class="w-full p-2 aspect-square object-cover saturate-0 transition-all duration-200 ease-linear size-full group-hover/hoverimg:saturate-100 group-hover/hoverimg:scale-[1.01]"
+              />
+            </router-link>
+
           </div>
           <CardTitle class="py-2 pb-4 px-6 text-md"
             >{{ item.title }}

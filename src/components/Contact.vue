@@ -118,7 +118,7 @@ const handleSubmit = () => {
                 <Input
                   id="first-name"
                   type="text"
-                  placeholder="Leopoldo"
+                  placeholder="name"
                   v-model="contactForm.firstName"
                 />
               </div>
@@ -128,7 +128,7 @@ const handleSubmit = () => {
                 <Input
                   id="last-name"
                   type="text"
-                  placeholder="Miranda"
+                  placeholder="last name"
                   v-model="contactForm.lastName"
                 />
               </div>
@@ -139,7 +139,7 @@ const handleSubmit = () => {
               <Input
                 id="email"
                 type="email"
-                placeholder="leomirandadev@gmail.com"
+                placeholder="example@gmail.com"
                 v-model="contactForm.email"
               />
             </div>

@@ -11,7 +11,6 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import {
   Sheet,
@@ -26,7 +25,6 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
 import { ChevronsDown, Menu } from "lucide-vue-next";
-import GithubIcon from "@/icons/GithubIcon.vue";
 import ToggleTheme from "./ToggleTheme.vue";
 
 interface RouteProps {
@@ -45,15 +43,15 @@ const routeList: RouteProps[] = [
     label: "Home",
   },
   {
-    href: "about",
-    label: "About",
+    href: "/about",
+    label: "Product",
   },
   {
-    href: "contact",
+    href: "/contact",
     label: "Contact",
   },
   {
-    href: "faq",
+    href: "/faq",
     label: "FAQ",
   },
 ];
@@ -117,7 +115,7 @@ const isOpen = ref<boolean>(false);
                   class="flex items-center"
                 >
                   <ChevronsDown
-                    class="bg-gradient-to-tr from-primary/70 via-primary to-primary/70 rounded-md size-4 mr-2 border text-white"
+                    class="bg-gradient-to-tr from-green-600 via-green-900/70 to-green-400 rounded-md size-4 mr-2 border text-white"
                   />
                   Vue.js
                 </a>
@@ -155,13 +153,6 @@ const isOpen = ref<boolean>(false);
     <NavigationMenu class="hidden lg:block">
       <NavigationMenuList>
         <NavigationMenuItem>
-          <!-- 
-
-          <NavigationMenuTrigger class="bg-card text-base">
-            Features
-          </NavigationMenuTrigger>
-  -->
-
           <NavigationMenuContent>
             <div class="grid w-[600px] grid-cols-2 gap-4 p-2">
               <img
@@ -205,20 +196,16 @@ const isOpen = ref<boolean>(false);
 
     <div class="hidden lg:flex">
       <ToggleTheme />
-
-      <Button
+        <Button
         as-child
         size="sm"
-        variant="ghost"
-        aria-label="View on GitHub"
+        variant="link"
+        class="ml-2 text-sm text-teal-500"
+        aria-label="View on Login"
       >
-        <a
-          aria-label="View on GitHub"
-          href="/shadcn-vue-landing-page.git"
-          target="_blank"
-        >
-          <GithubIcon class="size-4" />
-        </a>
+      <router-link :to="'/login'">
+        <span>Login</span>
+      </router-link>
       </Button>
     </div>
   </header>
