@@ -35,6 +35,11 @@ defineProps<{
   <SidebarGroup>
     <SidebarGroupLabel>Platform</SidebarGroupLabel>
     <SidebarMenu>
+            <SidebarMenuButton >
+          <router-link to="/admin/dashboard">
+                    <span>Dashboard</span>
+                     </router-link>
+            </SidebarMenuButton>
       <Collapsible
         v-for="item in items"
         :key="item.title"
@@ -43,6 +48,7 @@ defineProps<{
         class="group/collapsible"
       >
         <SidebarMenuItem>
+    
           <CollapsibleTrigger as-child>
             <SidebarMenuButton :tooltip="item.title">
               <component :is="item.icon" v-if="item.icon" />
@@ -52,11 +58,15 @@ defineProps<{
           </CollapsibleTrigger>
           <CollapsibleContent>
             <SidebarMenuSub>
+              
               <SidebarMenuSubItem v-for="subItem in item.items" :key="subItem.title">
                 <SidebarMenuSubButton as-child>
-                  <a :href="subItem.url">
+                     <router-link :to="subItem.url">
                     <span>{{ subItem.title }}</span>
-                  </a>
+                     </router-link>
+                  <!-- <a :to="subItem.url">
+                    <span>{{ subItem.title }}</span>
+                  </a> -->
                 </SidebarMenuSubButton>
               </SidebarMenuSubItem>
             </SidebarMenuSub>

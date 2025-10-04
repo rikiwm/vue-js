@@ -12,10 +12,7 @@ interface LoginRequest {
 export const useLogin = () => {
 
     return useMutation({
-
-        // mutation untuk login
         mutationFn: async (data: LoginRequest) => {
-            //menggunakan service API untuk login
             const response = await Api.post('/auth/login', data);
             console.log(response.data);
 

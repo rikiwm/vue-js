@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { SidebarProps } from "@/components/ui/sidebar"
+import { faker } from 'https://esm.sh/@faker-js/faker';
 
 import {
   AudioWaveform,
@@ -33,15 +34,15 @@ const props = withDefaults(defineProps<SidebarProps>(), {
 // This is sample data.
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    name: faker.person.prefix('male') + faker.person.firstName('male') + faker.person.lastName('male'),
+    email: faker.internet.exampleEmail(),
+    avatar: faker.image.avatar(),
   },
   teams: [
     {
-      name: "App Inc",
+      name: "PADANG INC",
       logo: GalleryVerticalEnd,
-      plan: "Enterprise",
+      plan: "Goverment",
     },
     // {
     //   name: "Acme Corp.",
@@ -123,37 +124,29 @@ const data = {
           url: "#",
         },
         {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
+          title: "User",
+          url: "/admin/users",
         },
       ],
     },
   ],
-  projects: [
-    {
-      name: "Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
+  // projects: [
+  //   {
+  //     name: "Engineering",
+  //     url: "#",
+  //     icon: Frame,
+  //   },
+  //   {
+  //     name: "Marketing",
+  //     url: "#",
+  //     icon: PieChart,
+  //   },
+  //   {
+  //     name: "Travel",
+  //     url: "#",
+  //     icon: Map,
+  //   },
+  // ],
 }
 </script>
 

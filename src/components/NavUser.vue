@@ -28,6 +28,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { useLogout } from "@/composable/auth/useLogout"
 
 const props = defineProps<{
   user: {
@@ -36,6 +37,10 @@ const props = defineProps<{
     avatar: string
   }
 }>()
+
+
+// Composable login
+const logout = useLogout();
 
 const { isMobile } = useSidebar()
 </script>

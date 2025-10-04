@@ -1,22 +1,17 @@
 <script setup lang="ts">
+import { useColorMode } from "@vueuse/core";
+const mode = useColorMode();
 import { useRoute } from 'vue-router'
 import { useProductsId } from '@/composable/products/useProductsId';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardFooter} from '@/components/ui/card';
 
 const route = useRoute()
 
-// Ambil ID dari route param
 const id = Number(route.params.id)
 
 const { data: products } = useProductsId(id)
-// import SidebarMenu component
-import Navbar from "../components/Navbar.vue";
+
+import Navbar from "@/components/Navbar.vue";
 </script>
 <template>
       <Navbar />

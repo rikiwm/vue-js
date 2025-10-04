@@ -1,16 +1,14 @@
 import axios from "axios"
 import Cookies from "js-cookie"
 
-// Buat instance Axios
-const Api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "https://fakestoreapi.com", // bisa ambil dari .env
+const Api2 = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || "https://ppid.padang.go.id/api/v1", // bisa ambil dari .env
   headers: {
     "Content-Type": "application/json",
   },
 })
-
 // Request interceptor → tambahin Authorization header kalau ada token
-Api.interceptors.request.use(
+Api2.interceptors.request.use(
   (config) => {
     const token = Cookies.get("token")
     if (token) {
@@ -22,7 +20,7 @@ Api.interceptors.request.use(
 )
 
 // Response interceptor → kalau token expired bisa handle di sini
-Api.interceptors.response.use(
+Api2.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
@@ -34,4 +32,4 @@ Api.interceptors.response.use(
   }
 )
 
-export default Api
+export default Api2

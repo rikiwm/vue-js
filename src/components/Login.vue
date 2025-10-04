@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useColorMode } from "@vueuse/core";
+const mode = useColorMode();
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -63,7 +65,6 @@ const handleLogin = (e: Event) => {
     )
 }
 </script>
-
 
 <template>
      <section class="container py-24 sm:py-32">

@@ -3,7 +3,7 @@ import { ref } from "vue";
 
 import { useColorMode } from "@vueuse/core";
 const mode = useColorMode();
-mode.value = "dark";
+mode.value = "light";
 
 import {
   NavigationMenu,
@@ -43,8 +43,8 @@ const routeList: RouteProps[] = [
     label: "Home",
   },
   {
-    href: "/about",
-    label: "Product",
+    href: "/products",
+    label: "Products",
   },
   {
     href: "/contact",
@@ -203,7 +203,7 @@ const isOpen = ref<boolean>(false);
         class="ml-2 text-sm text-teal-500"
         aria-label="View on Login"
       >
-      <router-link :to="'/login'">
+      <router-link :to="'/auth/login'">
         <span>Login</span>
       </router-link>
       </Button>

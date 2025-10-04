@@ -27,6 +27,7 @@
   "dependencies": {
     "@selemondev/vue3-marquee": "^0.0.8",
     "@tanstack/vue-query": "^5.90.2",
+    "@tanstack/vue-table": "^8.21.3",
     "@unovis/ts": "^1.6.1",
     "@unovis/vue": "^1.6.1",
     "@vee-validate/zod": "^4.13.2",
