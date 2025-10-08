@@ -30,7 +30,8 @@ import {
 const props = withDefaults(defineProps<SidebarProps>(), {
   collapsible: "icon",
 })
-
+import { useRoute } from "vue-router"
+const route = useRoute();
 // This is sample data.
 const data = {
   user: {
@@ -44,22 +45,12 @@ const data = {
       logo: GalleryVerticalEnd,
       plan: "Goverment",
     },
-    // {
-    //   name: "Acme Corp.",
-    //   logo: AudioWaveform,
-    //   plan: "Startup",
-    // },
-    // {
-    //   name: "Evil Corp.",
-    //   logo: Command,
-    //   plan: "Free",
-    // },
   ],
   navMain: [
     {
-      title: "Data Manager",
+      title: "Data Master",
       url: "#",
-      icon: SquareTerminal,
+      icon: BookOpen,
       isActive: true,
       items: [
         {
@@ -76,6 +67,7 @@ const data = {
       title: "Models",
       url: "#",
       icon: Bot,
+      isActive: true,
       items: [
         {
           title: "Post",
@@ -91,37 +83,39 @@ const data = {
         },
       ],
     },
+    // {
+    //   title: "Documentation",
+    //   url: "#",
+    //   icon: BookOpen,
+    //   isActive: null,
+    //   items: [
+    //     {
+    //       title: "Introduction",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Get Started",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Tutorials",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Changelog",
+    //       url: "#",
+    //     },
+    //   ],
+    // },
     {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
+      title: "Fake Api",
       url: "#",
       icon: Settings2,
+      isActive: true,
       items: [
         {
-          title: "General",
-          url: "#",
+          title: "Product",
+          url: "/admin/fakeapi",
         },
         {
           title: "User",
@@ -130,24 +124,10 @@ const data = {
       ],
     },
   ],
-  // projects: [
-  //   {
-  //     name: "Engineering",
-  //     url: "#",
-  //     icon: Frame,
-  //   },
-  //   {
-  //     name: "Marketing",
-  //     url: "#",
-  //     icon: PieChart,
-  //   },
-  //   {
-  //     name: "Travel",
-  //     url: "#",
-  //     icon: Map,
-  //   },
-  // ],
 }
+
+
+
 </script>
 
 <template>

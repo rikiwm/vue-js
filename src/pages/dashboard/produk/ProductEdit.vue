@@ -9,12 +9,12 @@ const title = defineProps({
   title: {
     type: String,
     required: false,
-    default: "Products",
+    default: "Product",
   },
 });
 import { faker } from 'https://esm.sh/@faker-js/faker';
 import { ref} from "vue";
-import { Separator } from "@/components/ui/separator"
+import { Separator } from "@/components/ui/separator";
 
 import {
   Breadcrumb,
@@ -23,12 +23,12 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
+} from "@/components/ui/breadcrumb";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
 import {
   Card,
@@ -37,8 +37,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import AppSidebar from "@/components/AppSidebar.vue"
-import Table from "@/components/Table.vue"
+import AppSidebar from "@/components/AppSidebar.vue";
+
+import ProductForm from "@/components/ProductForm.vue";
+import Toaster from "@/components/ui/toast/Toaster.vue";
+
 // const randomName = faker.helpers.uniqueArray(faker.person.jobTitle(),3);
 // console.log(randomName.data);
 
@@ -81,7 +84,7 @@ const widgetData = [
               </BreadcrumbItem>
               <BreadcrumbSeparator class="hidden md:block" />
               <BreadcrumbItem>
-                <BreadcrumbPage>Data {{ title.title }}</BreadcrumbPage>
+                <BreadcrumbPage>{{ title.title }}</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -90,25 +93,11 @@ const widgetData = [
 
       <div class="flex flex-1 flex-col gap-4 p-4 pt-0">
           <div class="grid auto-rows-min gap-4 md:grid-cols-3">
-            <Card v-for="(item, index) in widgetData" :key="index" class="rounded-lg border border-border bg-muted/50">
-              <CardHeader>
-                <CardTitle>{{ item.title }}</CardTitle>
-                <CardDescription>{{ item.description }}</CardDescription>
-              </CardHeader>
-              <CardContent class="grid gap-2 p-2">
-                <div class=" flex items-center space-x-4 rounded-md  p-3 bg-card">
-                  <Bell />
-                  <div class="flex-1 space-y-1">
-                    <p class="text-sm font-medium leading-none">
-                      Date : {{ item.persen }}
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+           
           </div>
           <div class="flex-1 rounded-xl" >
-            <Table />
+            <ProductForm />
+            <Toaster />
           </div>
       </div>
 

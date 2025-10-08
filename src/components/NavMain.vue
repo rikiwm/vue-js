@@ -64,9 +64,6 @@ defineProps<{
                      <router-link :to="subItem.url">
                     <span>{{ subItem.title }}</span>
                      </router-link>
-                  <!-- <a :to="subItem.url">
-                    <span>{{ subItem.title }}</span>
-                  </a> -->
                 </SidebarMenuSubButton>
               </SidebarMenuSubItem>
             </SidebarMenuSub>

@@ -5,8 +5,18 @@ export const containerClass = "w-full h-full"
 </script>
 
 <script setup lang="ts">
+const title = defineProps({
+  title: {
+    type: String,
+    required: false,
+    default: "Dashboard",
+  },
+});
+console.log(title);
 import AppSidebar from "@/components/AppSidebar.vue"
 import { LineChart } from "@/components/ui/chart-line"
+import { faker } from 'https://esm.sh/@faker-js/faker';
+
 import { Separator } from "@/components/ui/separator"
 import {
   Breadcrumb,
@@ -32,19 +42,19 @@ import {
 
 const widgetData = [
   {
-    title: "Model",
+    title: faker.finance.amount({ min: 6, max: 9123780500, autoFormat: true, symbol: 'Rp.',dec:0 }),
     description: "1 hour ago",
   },
   {
- title: "Model",
+     title: faker.finance.amount({ min: 6, max: 9123780500, autoFormat: true, symbol: 'Rp.',dec:0 }),
     description: "1 hour ago",
   },
   {
- title: "Model",
+     title: faker.finance.amount({ min: 6, max: 9123780500, autoFormat: true, symbol: 'Rp.',dec:0 }),
     description: "2 hours ago",
   },
   {
-     title: "Model",
+        title: faker.finance.amount({ min: 6, max: 9123780500, autoFormat: true, symbol: 'Rp.',dec:0 }),
     description: "2 hours ago",
   },
 ]
@@ -324,12 +334,12 @@ const data = [
             <BreadcrumbList>
               <BreadcrumbItem class="hidden md:block">
                 <BreadcrumbLink href="#">
-                  Building Your Application
+                 Application
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator class="hidden md:block" />
               <BreadcrumbItem>
-                <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                <BreadcrumbPage>{{ title.title }}</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -338,24 +348,25 @@ const data = [
 
       <div class="flex flex-1 flex-col gap-4 p-4 pt-0">
         <div class="grid auto-rows-min gap-4 md:grid-cols-4">
-           <Card v-for="(item, index) in widgetData" :key="index" class="rounded-lg border border-border bg-card">
+           <Card v-for="(item, index) in widgetData" :key="index" class="rounded-lg border border-border bg-muted/50">
             <CardHeader>
-              <CardTitle>{{ item.title }} - {{ index + 1 }}</CardTitle>
+              <CardTitle>{{ item.title }}</CardTitle>
               <CardDescription>{{ item.description }}</CardDescription>
             </CardHeader>
-            <CardContent class="grid gap-2 p-2">
-              <div class=" flex items-center space-x-4 rounded-md border p-2">
+            <!-- <CardContent class="grid gap-2 p-2">
+              <div class=" flex items-center space-x-4 rounded-md p-2 bg-card">
                 <Bell />
                 <div class="flex-1 space-y-1">
                   <p class="text-sm font-medium leading-none">
-                     Data {{ item.title }} {{ index + 1 }}
+                     Data {{ item.title }}
                   </p>
                 </div>
               </div>
-            </CardContent>
+            </CardContent> -->
           </Card>
         </div>
-          <div class="flex-1 rounded-xl p-2" >
+        
+          <!-- <div class="flex-1 rounded-xl p-2" >
           <LineChart
               :data="data"
               index="year"
@@ -366,7 +377,7 @@ const data = [
                   : ''
               }"
             />
-          </div>
+          </div> -->
           
         <div class="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
       </div>

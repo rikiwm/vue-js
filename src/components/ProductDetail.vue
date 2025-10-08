@@ -1,16 +1,12 @@
 <script setup lang="ts">
 import { useColorMode } from "@vueuse/core";
-const mode = useColorMode();
-import { useRoute } from 'vue-router'
-import { useProductsId } from '@/composable/products/useProductsId';
+import { useRoute } from 'vue-router';
+import { useProductsId } from '@/composable/products/useProducts';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter} from '@/components/ui/card';
-
+const mode = useColorMode();
 const route = useRoute()
-
 const id = Number(route.params.id)
-
-const { data: products } = useProductsId(id)
-
+const { data: products, isLoading, isError, error } = useProductsId(id)
 import Navbar from "@/components/Navbar.vue";
 </script>
 <template>
@@ -26,10 +22,24 @@ import Navbar from "@/components/Navbar.vue";
           {{ products?.category }}
       </h2>
     </div>
-     <Card class="bg-muted/60 dark:bg-card flex flex-col h-full overflow-hidden group/hoverimg"
-      >
-        <CardHeader class="p-2 gap-0 lg:w-[50%] mx-auto">
-          <div class="h-full overflow-hidden">
+      <div v-if="isLoading" class="w-full  justify-center space-y-4">
+        <div  class="animate-pulse bg-muted rounded-lg p-4 h-80"></div>
+        <div  class="animate-pulse bg-muted rounded-lg p-4 h-10"></div>
+        <div  class="animate-pulse bg-muted rounded-lg p-4 h-10"></div>
+        <div  class="animate-pulse bg-muted rounded-lg p-4 h-10"></div>
+      </div>
+
+      <!-- Error -->
+      <div v-else-if="isError" class="text-center text-red-500">
+        {{ error }}
+      </div>
+
+      <!-- Data -->
+      <div v-else>
+        <Card class="bg-muted/60 dark:bg-card flex flex-col h-full overflow-hidden group/hoverimg"
+        >
+          <CardHeader class="p-2 gap-0 lg:w-[50%] mx-auto">
+            <div class="h-full overflow-hidden">
             <img
               :src="products?.image"
               alt=""
@@ -51,6 +61,6 @@ import Navbar from "@/components/Navbar.vue";
 
         </CardFooter>
       </Card>
-
+      </div>
     </section>
 </template>

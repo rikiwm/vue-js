@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Marquee } from "@selemondev/vue3-marquee";
 import "@selemondev/vue3-marquee/dist/style.css";
-
 import {
   Crown,
   Vegan,

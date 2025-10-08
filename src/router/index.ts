@@ -42,6 +42,8 @@ const routes = [
         { path: 'dashboard', name: 'Dashboard', component: DashboardHome },
         { path: 'products', name: 'Products',  component: DashboardProducts},
         { path: 'users', name: 'Users',  component: DashboardUsers},
+        { path: 'fakeapi', name: 'FakeApi',  component: () => import('@/pages/dashboard/FakeApi.vue')},
+        { path: 'products/:id', name: 'EditProduct', component: () => import('@/pages/dashboard/produk/ProductEdit.vue') },
       ],
     },
 ]

@@ -66,12 +66,12 @@ const columns = [
     header: "Instansi",
     cell: (info) => info.getValue(),
   }),
-  columnHelper.accessor("kategori_id", {
+  columnHelper.accessor("kategori_nama", {
     header: "Kategori",
     cell: (info) => info.getValue(),
   }),  
-  columnHelper.accessor("status", {
-    header: "Status",
+  columnHelper.accessor("jenis_nama", {
+    header: "Jenis",
     cell: (info) => info.getValue(),
   }),
   columnHelper.accessor("is_publish_text", {
@@ -86,7 +86,7 @@ const columns = [
         {
           href: getValue(),
           target: "_blank",
-          class: "text-blue-600 underline",
+          class: "bg-muted/50 border px-2 rounded-sm text-muted-foreground text-xs py-1",
         },
         "Download"
       ),
@@ -101,7 +101,7 @@ const table = useVueTable({
   getCoreRowModel: getCoreRowModel(),
   getSortedRowModel: getSortedRowModel(),
   getFilteredRowModel: getFilteredRowModel(), //  filter row
-  enableColumnFilters: true, // ✅ izinkan filtering
+  enableColumnFilters: true,
 });
 
 const fetchData = async (page = 1) => {
@@ -137,79 +137,82 @@ onMounted(() => {
 
 <template>
   <div class="w-full">
-  <div class="p-2">
-      <div class="flex items-center py-4">
-      <Input
-        class="max-w-sm"
-        placeholder="Filter nama..."
-        :model-value="table.getColumn('nama')?.getFilterValue() as string"
-        @update:model-value="table.getColumn('nama')?.setFilterValue($event)"
-      />
-      <DropdownMenu>
-        <DropdownMenuTrigger as-child>
-          <Button variant="outline" class="ml-auto">
-            Columns <ChevronDown class="ml-2 h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuCheckboxItem
-            v-for="column in table.getAllColumns().filter((column) => column.getCanHide())"
-            :key="column.id"
-            class="capitalize"
-            :model-value="column.getIsVisible()"
-            @update:model-value="(value) => {
-              column.toggleVisibility(!!value)
-            }"
-          >
-            {{ column.id }}
-          </DropdownMenuCheckboxItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
-    <Table>
-      <TableHeader>
-        <TableRow>
-            <TableHead v-for="header in table.getHeaderGroups()[0].headers" :key="header.id">
-                <button
-                    class="flex items-center gap-1"
-                    @click="header.column.toggleSorting()"
-                >
-                    {{ header.column.columnDef.header }}
-                    <span v-if="header.column.getIsSorted() === 'asc'">🔼</span>
-                    <span v-else-if="header.column.getIsSorted() === 'desc'">🔽</span>
-                </button>
-                </TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-            <TableRow v-for="row in table.getRowModel().rows" :key="row.id">
-                <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
-            <component :is="() => cell.column.columnDef.cell(cell)" />
-            </TableCell>
-        </TableRow>
-      </TableBody>
-    </Table>
-    <div class="flex items-center justify-between mt-4">
-      <Button
-        variant="outline"
-        size="sm"
-        :disabled="!pagination.prev_page_url"
-        @click="fetchData(pagination.current_page - 1)"
-      >
-        Prev
-      </Button>
+    <div class="p-0">
+      <div class="flex items-center p-2 bg-muted/50 rounded-lg border border-border">
+          <Input
+            class="max-w-md rounded-md"
+            placeholder="Cari Nama..."
+            :model-value="table.getColumn('nama')?.getFilterValue() as string"
+            @update:model-value="table.getColumn('nama')?.setFilterValue($event)"/>
+          <DropdownMenu>
+            <DropdownMenuTrigger as-child>
+              <Button variant="outline" class="ml-auto">
+               Filter Columns <ChevronDown class="ml-2 h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuCheckboxItem
+                v-for="column in table.getAllColumns().filter((column) => column.getCanHide())"
+                :key="column.id"
+                class="capitalize rounded-md"
+                :model-value="column.getIsVisible()"
+                @update:model-value="(value) => {
+                  column.toggleVisibility(!!value)
+                }"
+              >
+                {{ column.id }}
+              </DropdownMenuCheckboxItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+      </div>
 
-      <span> Page {{ pagination.current_page }} / {{ pagination.last_page }} </span>
+      <div class="mt-4 bg-muted/50 rounded-lg border border-border p-3">
+      <Table>
+        <TableHeader>
+          <TableRow>
+              <TableHead v-for="header in table.getHeaderGroups()[0].headers" :key="header.id">
+                  <button
+                      class="flex items-center gap-1"
+                      @click="header.column.toggleSorting()"
+                  >
+                      {{ header.column.columnDef.header }}
+                      <span v-if="header.column.getIsSorted() === 'asc'">🔼</span>
+                      <span v-else-if="header.column.getIsSorted() === 'desc'">🔽</span>
+                  </button>
+                  </TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+              <TableRow v-for="row in table.getRowModel().rows" :key="row.id">
+                  <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id" class="capitalize">
+              <component :is="() => cell.column.columnDef.cell(cell)" />
+              </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+      </div>
 
-      <Button
-        variant="outline"
-        size="sm"
-        :disabled="!pagination.next_page_url"
-        @click="fetchData(pagination.current_page + 1)"
-      >
-        Next
-      </Button>
+      <div class="flex items-center justify-between mt-4">
+        <Button
+          variant="outline"
+          size="sm"
+          :disabled="!pagination.prev_page_url"
+          @click="fetchData(pagination.current_page - 1)"
+        >
+          Prev
+        </Button>
+        <span> Page {{ pagination.current_page }} / {{ pagination.last_page }} </span>
+        <Button
+          variant="outline"
+          size="sm"
+          :disabled="!pagination.next_page_url"
+          @click="fetchData(pagination.current_page + 1)"
+        >
+          Next
+        </Button>
+        
+      </div>
+
     </div>
-  </div>
   </div>
 </template>

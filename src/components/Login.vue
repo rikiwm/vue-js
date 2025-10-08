@@ -12,6 +12,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+import { useToast } from "@/components/ui/toast/use-toast";
+const { toast } = useToast();
+
 //import ref dan reactive dari vue
 import { ref, reactive } from 'vue';
 
@@ -51,15 +54,23 @@ const handleLogin = (e: Event) => {
         {
             onSuccess: (data: any) => {
              console.log('Login sukses, data:', data);
-            Cookies.set('token', data.token)
+            Cookies.set('token', data.token);
+            // toast({
+            //   title: "Login Berhasil",
+            //   description: `Selamat datang, ${username.value}!`,
+            // });
             console.log('Redirecting...')
                 router.push({ name: 'Dashboard' })
             },
             onError: (error: any) => {
                 console.log('error', error.response.data.errors);
-                //assign errors, error.response.data.errors)
-                Object.assign(errors, error.response.data.errors)
-
+                Object.assign(errors, error.response.data.errors);
+                //tampilkan toast error
+            toast({
+                title: "Login Gagal ⚠️",
+                description: "Periksa kembali username atau password Anda.",
+                variant: "destructive", // merah
+              });
             },
         }
     )
@@ -75,7 +86,12 @@ const handleLogin = (e: Event) => {
         Login
       </CardTitle>
       <CardDescription>
-        Enter your email below to login to your account
+          <div v-if="errors.Username" class="alert alert-danger">
+              Username or Password is incorrect
+          </div>
+           <div v-if="errors.Password" class="alert alert-danger">
+              Username or Password is incorrect
+        </div>
       </CardDescription>
     </CardHeader>
     <CardContent>
@@ -117,12 +133,15 @@ const handleLogin = (e: Event) => {
                                 {{ errors.Password }}
                             </div>
         </div>
+   
         <Button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 mt-4" :disabled="isPending">
        {{ isPending ? 'Loading...' : 'Login' }}
         </Button>
         <!-- <Button variant="outline" class="w-full">
           Login with Google
         </Button> -->
+
+               
 </form> 
       </div>
       <div class="mt-4 text-center text-sm">
