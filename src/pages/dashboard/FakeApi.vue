@@ -38,6 +38,9 @@ import {
 } from "@/components/ui/card"
 import AppSidebar from "@/components/AppSidebar.vue"
 import ProductList from "@/components/ProductList.vue"
+import Toaster from "@/components/ui/toast/Toaster.vue";
+
+
 // import ProductForm from "@/components/ProductForm.vue"
 // const randomName = faker.helpers.uniqueArray(faker.person.jobTitle(),3);
 // console.log(randomName.data);
@@ -107,6 +110,7 @@ const widgetData = [
           </div>
           <div class="flex-1 rounded-xl" >
             <ProductList />
+            <Toaster />
             <!-- <ProductForm /> -->
           </div>
       </div>

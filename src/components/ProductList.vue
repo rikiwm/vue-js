@@ -3,16 +3,12 @@
 <script setup lang="ts">
 import { ref, watchEffect, h } from "vue"
 import { useRouter } from 'vue-router'
-
-// import table hooks dari TanStack
 import {
   useVueTable,
   getCoreRowModel,
   getSortedRowModel,
   createColumnHelper,
 } from "@tanstack/vue-table"
-
-// import komponen Table dari shadcn-vue
 import {
   Table,
   TableHeader,
@@ -21,7 +17,20 @@ import {
   TableHead,
   TableCell,
 } from "@/components/ui/table"
-
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog"
+import { useToast } from "@/components/ui/toast/use-toast";
+import { Button } from "@/components/ui/button"
+import { useProducts, useDeleteProduct }  from '@/composable/products/useProducts';
 // definisi tipe data produk
 interface Product {
   id: number
@@ -31,15 +40,12 @@ interface Product {
   image: string
   category: string
 }
-import { useProducts, useDeleteProduct }  from '@/composable/products/useProducts';
+const { toast } = useToast();
 const router = useRouter()
-// ambil data dari API pakai Vue Query
 const { data, isLoading, isError, error } = useProducts()
 const deleteMutation = useDeleteProduct()
-
 // definisi kolom table
 const columnHelper = createColumnHelper<Product>()
-
 const columns = [
   columnHelper.accessor("id", {
     header: "ID",
@@ -77,29 +83,72 @@ const columns = [
       const row = info.row.original
       return (
        h("div", { class: "flex gap-2 justify-center" }, [
+            h(
+                Button,
+                { variant: "outline", size: "sm" 
+                , onClick: () => goToEdit(row.id)
+                },
+                "Edit"
+              ),
           h(
-            "button",
-            {
-              class:
-                "px-2 py-1 border btn btn-xs rounded",
-              onClick: () => goToEdit(row.id), 
-            },
-            "Edit"
-          ),
-          h(
-            "button",
-            {
-              class:
-                "px-2 py-1 bg-red-600 text-white rounded hover:bg-red-700",
-              onClick: () => removeProduct(row.id),
-            },
-            "Hapus"
-          ),
+        AlertDialog,
+        {},
+        {
+          default: () => [
+                // Trigger tombol
+                h(
+                  AlertDialogTrigger,
+                  { asChild: true },
+                  {
+                    default: () =>
+                      h(
+                        Button,
+                        { variant: "outline", size: "sm" },
+                        "Hapus"
+                      ),
+                  }
+                ),
+                // Konten dialog
+                h(
+                  AlertDialogContent,
+                  {},
+                  {
+                    default: () => [
+                      h(AlertDialogHeader, {}, {
+                        default: () => [
+                          h(AlertDialogTitle, {}, "Yakin ingin Hapus data ini?"),
+                          h(
+                            AlertDialogDescription,
+                            {},
+                            "Pastikan kamu sudah memverifikasi data sebelum menghapus."
+                          ),
+                        ],
+                      }),
+
+                      h(AlertDialogFooter, {}, {
+                        default: () => [
+                          h(AlertDialogCancel, {}, "Batal"),
+                          h(
+                            AlertDialogAction,
+                            {
+                              onClick: () => removeProduct(row.id),
+                            },
+                            "Lanjutkan"
+                          ),
+                        ],
+                      }),
+                    ],
+                  }
+                ),
+              ],
+            }
+          )
         ])
       )
     },
   }),
 ]
+
 
 // fungsi edit & delete
 const goToEdit = (id: number) => {
@@ -107,9 +156,15 @@ const goToEdit = (id: number) => {
 }
 
 const removeProduct = async (id: number) => {
-  if (confirm("Yakin hapus produk ini?")) {
-    await deleteMutation.mutateAsync(id)
-  }
+    // await deleteMutation.mutateAsync(id)
+    // console.log('Produk dengan ID', id, 'berhasil dihapus');
+    toast({
+      title: "Berhasil",
+      description: `Produk dengan ID ${id} berhasil dihapus.`,
+      duration: 3000,
+    });
+    // if (confirm("Yakin hapus produk ini?")) {
+  // }
 }
 
 // reactive data table
@@ -128,7 +183,7 @@ const table = useVueTable({
 </script>
 
 <template>
-  <div class="p-6">
+  <div class="p-2">
     <div class="flex justify-between mb-4 items-center">
       <h2 class="text-xl font-semibold">Daftar Produk</h2>
       <router-link
@@ -144,7 +199,8 @@ const table = useVueTable({
     <div v-else-if="isError" class="text-red-600">Error: {{ error.message }}</div>
 
     <!-- Table -->
-    <Table v-else>
+     <div  v-else class=" bg-muted/10 rounded-lg border border-border p-4">
+    <Table>
       <TableHeader>
         <TableRow>
           <TableHead
@@ -179,5 +235,6 @@ const table = useVueTable({
         </TableRow>
       </TableBody>
     </Table>
+     </div>
   </div>
 </template>

@@ -8,7 +8,7 @@ import { ArrowRight } from "lucide-vue-next";
 </script>
 
 <template>
-  <section class="container">
+  <section class="container mt-24">
     <div
       class="grid place-items-center lg:max-w-screen-xl gap-8 mx-auto py-10 md:py-12"
     >
@@ -69,13 +69,13 @@ import { ArrowRight } from "lucide-vue-next";
           class="absolute -top-6 right-12 w-[90%] h-12 lg:h-[80%] bg-teal-500/50 blur-3xl rounded-full img-shadow-animation"
         ></div>
 
-        <!-- <img
+        <img
           class="w-full md:w-[1200px] mx-auto rounded-2xl relative leading-none flex items-center border border-t-3 border-t-teal-500/30 img-border-animation"
           :src="
-            mode == 'light' ? 'vue-img.jpg' : 'vue-img.jpg'
+            mode == 'light' ? 'dash.png' : 'dash.png'
           "
           alt="dashboard using shadcn-vue"
-        /> -->
+        />
 
         <!-- gradient effect img -->
         <div

@@ -46,6 +46,7 @@ export const useCreateProduct = () => {
   return useMutation({
     mutationFn: async (newProduct: Product) => {
       const response = await Api.post('/products', newProduct)
+      console.log('Created Product:', response.data)
       return response.data
     },
     onSuccess: () => {

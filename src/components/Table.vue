@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, h } from "vue";
+import { ref, onMounted, h, watch  } from "vue";
 import type {
   ColumnDef,
   ColumnFiltersState,
@@ -38,6 +38,17 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog"
 
 const dataTable = ref([]);
 const pagination = ref({
@@ -46,7 +57,7 @@ const pagination = ref({
   prev_page_url: null,
   next_page_url: null,
 });
-
+const search = ref("");
 const columnHelper = createColumnHelper();
 
 const columns = [
@@ -80,16 +91,64 @@ const columns = [
   }),
   columnHelper.accessor("path_url_download", {
     header: "Download",
-    cell: ({ getValue }) =>
-      h(
-        "a",
+ cell: ({ getValue }) => {
+      const url = getValue()
+
+      return h(
+        AlertDialog,
+        {},
         {
-          href: getValue(),
-          target: "_blank",
-          class: "bg-muted/50 border px-2 rounded-sm text-muted-foreground text-xs py-1",
-        },
-        "Download"
-      ),
+          default: () => [
+            // Trigger tombol
+            h(
+              AlertDialogTrigger,
+              { asChild: true },
+              {
+                default: () =>
+                  h(
+                    Button,
+                    { variant: "outline", size: "sm" },
+                    "Download"
+                  ),
+              }
+            ),
+
+            // Konten dialog
+            h(
+              AlertDialogContent,
+              {},
+              {
+                default: () => [
+                  h(AlertDialogHeader, {}, {
+                    default: () => [
+                      h(AlertDialogTitle, {}, "Yakin ingin download file ini?"),
+                      h(
+                        AlertDialogDescription,
+                        {},
+                        "Pastikan kamu sudah memverifikasi file sebelum mengunduh."
+                      ),
+                    ],
+                  }),
+
+                  h(AlertDialogFooter, {}, {
+                    default: () => [
+                      h(AlertDialogCancel, {}, "Batal"),
+                      h(
+                        AlertDialogAction,
+                        {
+                          onClick: () => window.open(url, "_blank"),
+                        },
+                        "Lanjutkan"
+                      ),
+                    ],
+                  }),
+                ],
+              }
+            ),
+          ],
+        }
+      )
+    },
   }),
 ];
 
@@ -104,22 +163,33 @@ const table = useVueTable({
   enableColumnFilters: true,
 });
 
-const fetchData = async (page = 1) => {
+
+/**
+ * Ambil data dari API
+ * @param {number} page - halaman saat ini
+ * @param {string} keyword - kata kunci pencarian
+ */
+  
+const fetchData = async (page = 1, keyword = '') => {
   try {
-    const res = await fetch(`https://ppid.padang.go.id/api/v1/informasi?page=${page}`);
-    const json = await res.json();
- 
-    dataTable.value = json.result.data;
+    const url = new URL('https://ppid.padang.go.id/api/v1/informasi')
+    url.searchParams.set('page', page)
+    if (keyword) url.searchParams.set('search', keyword)
+
+    const res = await fetch(url)
+    const json = await res.json()
+
+    dataTable.value = json.result.data
     pagination.value = {
       current_page: json.result.current_page,
       last_page: json.result.last_page,
       prev_page_url: json.result.prev_page_url,
       next_page_url: json.result.next_page_url,
-    };
+    }
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error('Error fetching data:', error)
   }
-};
+}
 
 const toggleSort = (column: any) => {
   const current = column.getIsSorted();
@@ -127,7 +197,9 @@ const toggleSort = (column: any) => {
   else if (current === "asc") column.toggleSorting(false); // DESC
   else column.clearSorting(); // NONE
 };
-
+watch(search, (val) => {
+  fetchData(1, val)
+})
 
 onMounted(() => {
   fetchData();
@@ -142,8 +214,7 @@ onMounted(() => {
           <Input
             class="max-w-md rounded-md"
             placeholder="Cari Nama..."
-            :model-value="table.getColumn('nama')?.getFilterValue() as string"
-            @update:model-value="table.getColumn('nama')?.setFilterValue($event)"/>
+            v-model="search"/>
           <DropdownMenu>
             <DropdownMenuTrigger as-child>
               <Button variant="outline" class="ml-auto">
